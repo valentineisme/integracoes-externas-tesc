@@ -5,7 +5,7 @@ import { Request } from 'express';
 // Em um ambiente de produção, use o Redis ou outro armazenamento compartilhado.
 const requestTimestamps = new Map<string, number>();
 const requestCounts = new Map<string, { count: number, timestamp: number }>();
-const LIMIT_REQUESTS_PER_MINUTE = 10;
+const LIMIT_REQUESTS_PER_MINUTE = 5;
 
 @Injectable()
 export class RateLimitGuard implements CanActivate {
