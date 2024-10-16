@@ -1,8 +1,11 @@
 import { Injectable, CanActivate, ExecutionContext, UnauthorizedException } from '@nestjs/common';
 import { Request } from 'express';
 
+
 // Em um ambiente de produção, use o Redis ou outro armazenamento compartilhado.
 const requestTimestamps = new Map<string, number>();
+const requestCounts = new Map<string, { count: number, timestamp: number }>();
+const LIMIT_REQUESTS_PER_MINUTE = 10;
 
 @Injectable()
 export class RateLimitGuard implements CanActivate {
@@ -14,20 +17,44 @@ export class RateLimitGuard implements CanActivate {
       throw new UnauthorizedException('Token de autenticação não encontrado.');
     }
 
+    const { placa } = request.body;
+
+    if (!placa) {
+      throw new UnauthorizedException('Placa não encontrada no corpo da requisição.');
+    }
+
     const token = authorizationHeader.split(' ')[1];
     const currentTime = Date.now();
     
-    if (requestTimestamps.has(token)) {
-      const lastRequestTime = requestTimestamps.get(token);
-      const TEN_MINUTES = 10 * 60 * 1000; 
+    // if (requestTimestamps.has(token)) {
+    //   const lastRequestTime = requestTimestamps.get(token);
+    //   const TEN_MINUTES = 1 * 60 * 1000; 
 
-      if (currentTime - lastRequestTime < TEN_MINUTES) {
-        throw new UnauthorizedException('Requisição duplicada dentro de 10 minutos.');
-      }
-    }
+    //   if (currentTime - lastRequestTime < TEN_MINUTES) {
+    //     throw new UnauthorizedException('Requisição duplicada dentro de 1 minuto.');
+    //   }
+    // }
 
-    // Atualiza o timestamp da última requisição
     requestTimestamps.set(token, currentTime);
+
+    const ONE_MINUTE = 60 * 1000;
+
+    if (requestCounts.has(token)) {
+      const userData = requestCounts.get(token);
+
+      if (currentTime - userData.timestamp > ONE_MINUTE) {
+        userData.count = 0;
+        userData.timestamp = currentTime;
+      }
+
+      if (userData.count >= LIMIT_REQUESTS_PER_MINUTE) {
+        throw new UnauthorizedException('Número de requisições excedido. Tente novamente mais tarde.');
+      }
+
+      userData.count += 1;
+    } else {
+      requestCounts.set(token, { count: 1, timestamp: currentTime });
+    }
 
     return true;
   }

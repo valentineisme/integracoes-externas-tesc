@@ -4,7 +4,7 @@ import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { JwtStrategy } from './jwt/jwt-strategy'; 
 import { ConfigModule, ConfigService } from "@nestjs/config";
-import { AuthEmpresasEntity } from 'src/db/entities/auth-empresas.entity';
+import { AuthEmpresasEntity } from 'src/db/entities/empresas/auth-empresas.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthEmpresasModule } from './auth-empresas/auth-empresas.module';
 
@@ -23,5 +23,6 @@ import { AuthEmpresasModule } from './auth-empresas/auth-empresas.module';
   ],
   providers: [AuthService, JwtStrategy],
   controllers: [AuthController],
+  exports : [AuthService]
 })
 export class AuthModule {}

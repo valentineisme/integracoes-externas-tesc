@@ -1,6 +1,7 @@
 import { Controller, Post, Body, Get, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthEmpresasService } from './auth-empresas/auth-empresas.service';
+import { JwtService } from '@nestjs/jwt';
 
 @Controller('auth')
 export class AuthController {
@@ -22,7 +23,6 @@ export class AuthController {
     } else {
       var novoToken = (await this.authEmpresaService.retornaEmpresa(payload)).token;
     }
-
     return {
       token: novoToken
     };

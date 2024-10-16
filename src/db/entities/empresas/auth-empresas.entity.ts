@@ -19,3 +19,19 @@ export class AuthEmpresasEntity {
     @PrimaryColumn({type: 'varchar'})
     id: string;
 }
+
+@Entity({ name: 'AUTH.placa_trans' })
+export class AuthPlacaTransEntity {
+    @PrimaryColumn({type: 'varchar'})
+    cnpj: string;
+    @PrimaryColumn({type: 'varchar'})
+    placa: string;
+}
+
+@Entity({ name: 'AUTH.abrangencia' })
+export class AuthAbrangenciaEntity {
+    @PrimaryColumn({type: 'varchar'})
+    usuario: string;
+    @PrimaryColumn({type: 'varchar'})
+    abrangencia: string;
+}

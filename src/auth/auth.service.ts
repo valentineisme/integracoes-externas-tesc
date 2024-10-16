@@ -1,8 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
-import { InjectRepository } from '@nestjs/typeorm';
-import { AuthEmpresasEntity } from 'src/db/entities/auth-empresas.entity';
+import { AuthEmpresasEntity } from 'src/db/entities/empresas/auth-empresas.entity';
 
 @Injectable()
 export class AuthService {
@@ -12,5 +10,9 @@ export class AuthService {
 
     async generateToken(payload: any) {
         return this.jwtService.sign(payload);
-    }    
+    }
+
+    async desgenerateToken(token: any) {
+        return this.jwtService.decode(token);
+    }
 }
