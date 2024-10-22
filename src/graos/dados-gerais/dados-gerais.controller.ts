@@ -51,7 +51,7 @@ export class DadosGeraisController {
 
             const historicoEtapas: DadosGeraisDetDto[] = [];
             const detDto = new DadosGeraisDetDto();
-            for (const item of foundDet) {   
+            for (const item of foundDet) {
 
                 switch (item.tipoetapa) {
                     case 5:
@@ -67,7 +67,7 @@ export class DadosGeraisController {
                         detDto.classificacao = [classificacaoDto];
                         break;
                     case 2:
-                        detDto.chamado = item.dataetapa; 
+                        detDto.chamado = item.dataetapa;
                         break;
                     case 4:
                         detDto.saidaPatio = item.dataetapa;
@@ -81,8 +81,6 @@ export class DadosGeraisController {
                     default:
                         break;
                 }
-
-                
             }
             historicoEtapas.push(detDto);
 
@@ -97,36 +95,36 @@ export class DadosGeraisController {
                 dataAlvo: foundTicket[0].dataalva,
                 horaAlvo: foundTicket[0].horaalvo,
                 documentos,
-                transportadora: [
-                    {
-                        cnpj: foundTicket[0].cnpjtransportadora,
-                        razaoSocial: foundTicket[0].transportadora
-                    }
-                ],
-                depositante: [
-                    {
-                        cnpj: foundTicket[0].cnpjdepositante,
-                        razaoSocial: foundTicket[0].depositante
-                    }
-                ],
-                cliente: [
-                    {
-                        cnpj: foundTicket[0].cnpjcliente,
-                        razaoSocial: foundTicket[0].cliente
-                    }
-                ],
-                destinatario: [
-                    {
-                        cnpj: foundTicket[0].cnpjdestinatario,
-                        razaoSocial: foundTicket[0].destinatario
-                    }
-                ],
-                emitente: [
-                    {
-                        cnpj: foundTicket[0].cnpjemitente,
-                        razaoSocial: foundTicket[0].emitente
-                    }
-                ],
+                transportadora:
+                {
+                    cnpj: foundTicket[0].cnpjtransportadora,
+                    razaoSocial: foundTicket[0].transportadora
+                }
+                ,
+                depositante:
+                {
+                    cnpj: foundTicket[0].cnpjdepositante,
+                    razaoSocial: foundTicket[0].depositante
+                }
+                ,
+                cliente:
+                {
+                    cnpj: foundTicket[0].cnpjcliente,
+                    razaoSocial: foundTicket[0].cliente
+                }
+                ,
+                destinatario:
+                {
+                    cnpj: foundTicket[0].cnpjdestinatario,
+                    razaoSocial: foundTicket[0].destinatario
+                }
+                ,
+                emitente:
+                {
+                    cnpj: foundTicket[0].cnpjemitente,
+                    razaoSocial: foundTicket[0].emitente
+                }
+                ,
                 agrupador: foundTicket[0].agrupador,
                 historicoEtapas
             };

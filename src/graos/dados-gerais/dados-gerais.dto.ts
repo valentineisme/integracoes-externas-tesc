@@ -67,15 +67,15 @@ export class DadosGeraisResponseDto {
   @ApiProperty({ type: [DocumentosDto]})
   documentos: DocumentosDto[]; 
   @ApiProperty({ type: [EmpresaDto]})
-  transportadora: EmpresaDto[]; 
+  transportadora: EmpresaDto; 
   @ApiProperty({ type: [EmpresaDto]})
-  depositante: EmpresaDto[]; 
+  depositante: EmpresaDto; 
   @ApiProperty({ type: [EmpresaDto]})
-  cliente: EmpresaDto[]; 
+  cliente: EmpresaDto; 
   @ApiProperty({ type: [EmpresaDto]})
-  destinatario: EmpresaDto[]; 
+  destinatario: EmpresaDto; 
   @ApiProperty({ type: [EmpresaDto]})
-  emitente: EmpresaDto[]; 
+  emitente: EmpresaDto; 
   @ApiProperty()
   agrupador: string;
   @ApiProperty({ type: [DadosGeraisDetDto] })
