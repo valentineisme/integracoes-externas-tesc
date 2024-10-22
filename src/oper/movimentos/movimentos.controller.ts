@@ -2,7 +2,7 @@ import { Body, Controller, HttpStatus, Post, Req, Res, UseGuards } from '@nestjs
 import { AuthEmpresasService } from 'src/auth/auth-empresas/auth-empresas.service';
 import { MovimentosService } from './movimentos.service';
 import { AuthService } from 'src/auth/auth.service';
-import { RateLimitGuard } from 'src/auth/rate-limit/rate-limit.guard';
+import { RateLimitGuard, RateLimitGuardPlaca } from 'src/auth/rate-limit/rate-limit.guard';
 import { JwtAuthGuard } from 'src/auth/jwt/jwt-auth.guard';
 import { ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UltMovDto, UltMovResponseDto } from './movimentos.dto';
@@ -17,7 +17,7 @@ export class MovimentosController {
         private readonly authService: AuthService
       ) { }
 
-      @UseGuards(JwtAuthGuard, RateLimitGuard)
+      @UseGuards(JwtAuthGuard, RateLimitGuard, RateLimitGuardPlaca)
       @Post('ultimo-placa')
       @ApiBody({ type: UltMovDto })
       @ApiResponse({ status: 200, description: 'Movimento encontrado', type: UltMovResponseDto }) 

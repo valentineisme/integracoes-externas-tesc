@@ -1,4 +1,5 @@
 import { Injectable, CanActivate, ExecutionContext, UnauthorizedException } from '@nestjs/common';
+
 import { Request } from 'express';
 
 
@@ -12,24 +13,9 @@ export class RateLimitGuard implements CanActivate {
   canActivate(context: ExecutionContext): boolean {
     const request = context.switchToHttp().getRequest<Request>();
     const authorizationHeader = request.headers['authorization'];
-    
-    if (!authorizationHeader) {
-      throw new UnauthorizedException('Token de autenticação não encontrado.');
-    }
-
-
 
     const token = authorizationHeader.split(' ')[1];
     const currentTime = Date.now();
-    
-    // if (requestTimestamps.has(token)) {
-    //   const lastRequestTime = requestTimestamps.get(token);
-    //   const TEN_MINUTES = 1 * 60 * 1000; 
-
-    //   if (currentTime - lastRequestTime < TEN_MINUTES) {
-    //     throw new UnauthorizedException('Requisição duplicada dentro de 1 minuto.');
-    //   }
-    // }
 
     requestTimestamps.set(token, currentTime);
 
@@ -52,6 +38,43 @@ export class RateLimitGuard implements CanActivate {
       requestCounts.set(token, { count: 1, timestamp: currentTime });
     }
 
+    return true;
+  }
+}
+
+@Injectable()
+export class RateLimitGuardTicket implements CanActivate {
+  canActivate(context: ExecutionContext): boolean {
+    const request = context.switchToHttp().getRequest<Request>();
+    const { ticket } = request.body;
+    if (!ticket) {
+      throw new UnauthorizedException('Ticket não encontrado no corpo da requisição.');
+    }
+    return true;
+  }
+}
+
+@Injectable()
+export class RateLimitGuardPlaca implements CanActivate {
+  canActivate(context: ExecutionContext): boolean {
+    const request = context.switchToHttp().getRequest<Request>();
+    const { placa } = request.body;
+    if (!placa) {
+      throw new UnauthorizedException('Placa não encontrada no corpo da requisição.');
+    }
+    return true;
+  }
+}
+
+@Injectable()
+export class RateLimitGuardInicioFim implements CanActivate {
+  canActivate(context: ExecutionContext): boolean {
+    const request = context.switchToHttp().getRequest<Request>();
+    const { inicio } = request.body;
+    const { fim } = request.body;
+    if ((!inicio) || (!fim)) {
+      throw new UnauthorizedException('Campo inicio e fim são obrigaórios.');
+    }
     return true;
   }
 }
