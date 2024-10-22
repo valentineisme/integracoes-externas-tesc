@@ -17,11 +17,7 @@ export class RateLimitGuard implements CanActivate {
       throw new UnauthorizedException('Token de autenticação não encontrado.');
     }
 
-    const { placa } = request.body;
 
-    if (!placa) {
-      throw new UnauthorizedException('Placa não encontrada no corpo da requisição.');
-    }
 
     const token = authorizationHeader.split(' ')[1];
     const currentTime = Date.now();
